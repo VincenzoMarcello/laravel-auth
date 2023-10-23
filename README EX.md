@@ -177,4 +177,87 @@ php artisan db:seed --class=UserSeeder
 ```
 
 -   passiamo ai controller prima cosa da fare è spostare il ProjectController in Admin
-    visto che è una cosa che riguarda l'utente loggato
+    visto che è una cosa che riguarda l'utente loggato oppure cancellarlo e ricrearlo:
+
+    1.  Se lo spostiamo cosa dovremo fare:
+
+    ```
+    Aggiungiamo \Admin alla fine
+
+    namespace App\Http\Controllers\Admin;
+    ```
+
+    e importiamo il Controller
+
+    ```php
+    use App\Http\Controllers\Controller;
+    ```
+
+    2.  Se lo cancelliamo:
+
+    ```
+    lanciamo semplicemente il comando:
+    php artisan make:controller Admin\ProjectController -r
+    ```
+
+-   Ora nel resource controller (ProjectController) ci importiamo il Model Project nel nostro caso già lo abbiamo:
+
+```php
+use App\Models\Project;
+```
+
+-   poi iniziamo con le CRUD e l'index, per prima cosa ci andiamo a creare
+    nelle views in admin la cartellina projects e qui dentro metteremo il file
+    index.blade.php
+
+-   dopodiché dobbiamo aggiungere le rotte per il resource controller nel file web.php:
+
+```php
+Route::resource('projects', ProjectController::class);
+```
+
+-   e aggiungiamo se manca:
+
+```php
+use App\Http\Controllers\Admin\ProjectController;
+```
+
+-   poi in ProjectController:
+
+```php
+   public function index()
+    {
+        $projects = Project::all();
+        return view('admin.projects.index', compact('projects'));
+    }
+```
+
+-   e aggiungiamo questo se manca:
+
+```php
+use App\Models\Project;
+```
+
+-   per ora in index.blade.php vediamo i risultati in un dump:
+
+```php
+@extends('layouts.app')
+
+@section('content')
+  <div class="container">
+    @dump($projects)
+  </div>
+@endsection
+```
+
+-   ma siccome sono tanti possiamo decidere di fare la paginazione in ProjectController:
+
+```php
+$projects = Project::paginate(15);
+```
+
+-   e in index.blade.php:
+
+```php
+{{ $projects->links('pagination::bootstrap-5') }}
+```

@@ -1,8 +1,11 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 
+// # SI IMPORTA IL ProjectController
+use App\Http\Controllers\Admin\ProjectController;
+
 use App\Http\Controllers\Admin\PageController as AdminPageController;
+
 use App\Http\Controllers\Guest\PageController as GuestPageController;
 
 /*
@@ -16,15 +19,18 @@ use App\Http\Controllers\Guest\PageController as GuestPageController;
 |
 */
 
+// # ROTTE UTENTI NON LOGGATI
 Route::get('/', [GuestPageController::class, 'index'])->name('guest.home');
 
-
+// # ROTTE UTENTI LOGGATI
 Route::middleware(['auth', 'verified'])
   ->prefix('admin')
   ->name('admin.')
   ->group(function () {
 
     Route::get('/', [AdminPageController::class, 'index'])->name('home');
+    // # QUI IMPOSTIAMO LA ROTTA DEL RESOURCE CONTROLLER
+    Route::resource('projects', ProjectController::class);
 
   });
 
