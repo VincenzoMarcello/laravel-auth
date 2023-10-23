@@ -14,11 +14,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // # CHIAMIAMO UN METODO call() CHE CONTERRA' UN ARRAY CON TUTTI I SEEDER
+        // # CHE VOGLIAMO CHIAMARE IN MANIERA TALE CHE SE FACCIAMO UN REFRESH O UN RESET
+        // # BASTERA' FARE php artisan db:seed E TUTTI I SEEDER NELLA call() SI AVVIERANNO
+        $this->call([
+            ProjectSeeder::class,
+            UserSeeder::class
+        ]);
     }
 }

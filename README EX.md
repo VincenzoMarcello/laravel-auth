@@ -99,3 +99,82 @@ use Faker\Generator as Faker;
 ```
 php artisan db:seed --class=ProjectSeeder
 ```
+
+**ATTENZIONE:** siccome potrebbe capitare di dover fare un reset con il comando
+
+```
+ php artisan migrate:reset
+```
+
+per ad esempio inserire un nuovo dato nel migrate, facendo il reset perderei anche i dati degli users quindi quelli del login e si dovrebbero registrare nuovamente quindi per ovviare a questo facciamo un seeder solo degli users quindi creiamocelo:
+
+```
+ php artisan make:seeder UserSeeder
+```
+
+-   andiamo in UserSeeder:
+
+```php
+ public function run()
+    {
+        $user = new User();
+        $user->name = "Admin";
+        $user->email = "admin@admin.it";
+        // # QUI USIAMO UN METODO PER HASHARE LA PASSWORD
+        $user->password = Hash::make("password");
+        $user->save();
+    }
+
+```
+
+-   e ci importiamo questo per l'Hash:
+
+```php
+use Illuminate\Support\Facades\Hash;
+```
+
+-   Ora se facciamo il reset comunque verranno cancellate tutte le tabelle ma con un seed ricarichiamo i dati dell'utente il problema è che dobbiamo fare il migrate e due seed:
+
+```
+ php artisan migrate
+```
+
+```
+php artisan db:seed --class=ProjectSeeder
+```
+
+```
+php artisan db:seed --class=UserSeeder
+```
+
+-   Per ovviare anche a questo possiamo usare il DatabaseSeeder.php in seeders:
+
+```php
+ public function run()
+    {
+        // # CHIAMIAMO UN METODO call() CHE CONTERRA' UN ARRAY CON TUTTI I SEEDER
+        // # CHE VOGLIAMO CHIAMARE IN MANIERA TALE CHE SE FACCIAMO UN REFRESH O UN RESET
+        // # BASTERA' FARE php artisan db:seed E TUTTI I SEEDER NELLA call() SI AVVIERANNO
+        $this->call([
+            ProjectSeeder::class,
+            UserSeeder::class
+        ]);
+    }
+```
+
+-   basterà poi fare:
+
+```
+ php artisan db:seed
+
+ ATTENZIONE: se non ci sono classi da seedare nella call() questo comando non farà nulla
+```
+
+-   possiamo anche fare tutto in un colpo solo:
+
+```
+ php artisan migrate:refresh --seed
+```
+
+-   passiamo ai controller prima cosa da fare è spostare il ProjectController in Admin
+    visto che è una cosa che riguarda l'utente loggato
