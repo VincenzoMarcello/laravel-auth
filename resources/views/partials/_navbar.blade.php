@@ -11,16 +11,24 @@
           <a class="nav-link {{ Route::currentRouteName() == 'guest.home' ? 'active' : '' }}"
             href="{{ route('guest.home') }}" aria-current="page">Home<span class="visually-hidden">(current)</span></a>
         </li>
+        {{-- # QUI CI STA LA PARTE PER GLI UTENTI NON LOGGATI INFATTI C'è @guest --}}
         @guest
           <li class="nav-item">
             <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
           </li>
+          {{-- ! QUI STIAMO DICENDO SE C'è UNA ROTTA REGISTER ALLORA FAMMI VEDERE IL LINK PER REGISTRARMI --}}
           @if (Route::has('register'))
             <li class="nav-item">
               <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
             </li>
           @endif
+          {{-- # QUI CI STA LA PARTE PER GLI UTENTI LOGGATI INFATTI C'è @else E SE NON E' @guest E' admin --}}
         @else
+          {{-- ! QUI METTIAMO IL LINK ALL'INDEX CHE CI SERVE SOLO PER GLI UTENTI LOGGATI --}}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.projects.index') }}">Projects</a>
+          </li>
+
           <li class="nav-item dropdown">
             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

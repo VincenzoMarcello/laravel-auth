@@ -261,3 +261,21 @@ $projects = Project::paginate(15);
 ```php
 {{ $projects->links('pagination::bootstrap-5') }}
 ```
+
+-   ora mettiamo i dati in un tabella invece che un dump
+
+-   ora siccome possiamo accedere all'index solo attraverso l'aggiunta della query
+    presa dalla route:list direttamente nell'URL ci conviene creare un link che raggiunge l'index dalla navbar
+    **IMPORTANTE:** questo link per raggiungere l'index lo potrà vedere solo l'utente loggato!
+
+    ```php
+      <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.projects.index') }}">Projects</a>
+      </li>
+    ```
+
+    quindi aggiungiamo questo alla navbar nel blocco degli @else con la rotta per l'index
+    ora vedremo il link Projects nella navbar solo se siamo loggati però
+
+    {{__('Register')}} questo doppio\_\_ si usa per i siti multiligua
+    però noi possiamo anche scrivere solo Register senza nulla
