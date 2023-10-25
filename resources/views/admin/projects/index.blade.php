@@ -9,6 +9,10 @@
 
 @section('content')
   <div class="container">
+    {{-- # CI CREIAMO UN PULSANTE CHE CI PORTA AL FORM PER CREARE UN NUOVO PROJECT --}}
+    <a href="{{ route('admin.projects.create') }}" class="btn btn-success my-4">Crea proggetto</a>
+
+    {{-- # CI CREIAMO UNA TABELLA CHE CONTIENE LA LISTA DEI VARI ELEMENTI DEL DB --}}
     <table class="table">
       <thead>
         <tr>
@@ -20,6 +24,7 @@
         </tr>
       </thead>
       <tbody>
+        {{-- # FACCIO UN CICLO E STAMPO UNA RIGA PER OGNI ELEMENTO DEL DB --}}
         @forelse($projects as $project)
           <tr>
             <th scope="row">{{ $project->id }}</th>

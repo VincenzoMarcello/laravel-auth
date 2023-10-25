@@ -310,3 +310,56 @@ quindi diamo come parametro Project e nel ritorniamo la vista show che creeremo 
 -   ora in _show.blade.php_ ci andiamo a creare il template del dettaglio e ci mettiamo un pulsante per ritornare all'index
 
 -   aggiungiamo un segnaposto _@yild_ in _app.blade.php_ per aggiungere poi la CDN di fontawesome in index e mettiamo l'icone al posto dello show
+
+## CREAZIONE CREATE E STORE
+
+-   Andiamo nel resource controller alla voce create e aggiungiamo questo:
+
+```php
+ public function create()
+    {
+        return view('admin.projects.create');
+    }
+```
+
+-   in pratica stiamo dicendo che il _create_ ritornerà la vista create in project
+
+-   perciò ci creiamo in _views/admin/projects_ il file _create.blade.php_
+
+-   ci creiamo un pulsante in index.blade.php con la rotta che ci porta alla pagina create.blade.php:
+
+```html
+<a href="{{ route('admin.projects.create') }}" class="btn btn-success my-4"
+    >Crea progetto</a
+>
+```
+
+-   facciamo un form che invia i dati allo store in _create.blade.php_
+
+-   e nello store nel resource controller facciamo questo:
+
+```php
+  public function store(Request $request)
+    {
+        // # FACCIAMO UNA VARIABILE DATA CHE RICEVERA' I DATI DEL FORM
+        $data = $request->all();
+
+        // # E ISTANZIAMO UN NUOVO OGGETTO CHE CONTERRA' I DATI DEL FORM
+        $project = new Project();
+        // # ABBIAMO DUE MODI DI FARLO O SINGOLARMENTE PER OGNI VALORE
+        // # OPPURE CON IL FILL E METTENDO IL FILLABLE NEL MODEL
+        // # IN QUESTO CASO USIAMO IL SECONDO METODO
+        // $project->name = $data['name'];
+        // $project->link = $data['link'];
+        // $project->description = $data['description'];
+        // $project->save();
+
+        $project->fill($data);
+        $project->save();
+
+        // # FACCIAMO IL REDIRECT IN MANIERA TALE CHE QUANDO SALVIAMO
+        // # IL NUOVO PROGETTO CI RIPORTA A UNA ROTTA CHE VOGLIAMO
+        return redirect()->route('admin.projects.show', $project);
+    }
+
+```

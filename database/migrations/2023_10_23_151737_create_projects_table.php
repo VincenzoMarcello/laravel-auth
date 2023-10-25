@@ -17,7 +17,9 @@ return new class extends Migration {
             $table->string('name', 100);
             $table->text('description');
             $table->string('link');
-            $table->string('slug');
+            //! SE DIAMO NULLABLE() ANCHE SE NON METTIAMO ALCUN VALORE
+            //! NON DARA' PROBLEMI E METTERE NULL DI DEFAULT
+            $table->string('slug')->nullable();
             $table->timestamps();
         });
     }

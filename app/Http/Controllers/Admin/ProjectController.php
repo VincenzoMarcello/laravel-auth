@@ -36,7 +36,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.projects.create');
     }
 
     /**
@@ -47,7 +47,25 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // # FACCIAMO UNA VARIABILE DATA CHE RICEVERA' I DATI DEL FORM
+        $data = $request->all();
+
+        // # E ISTANZIAMO UN NUOVO OGGETTO CHE CONTERRA' I DATI DEL FORM
+        $project = new Project();
+        // # ABBIAMO DUE MODI DI FARLO O SINGOLARMENTE PER OGNI VALORE
+        // # OPPURE CON IL FILL E METTENDO IL FILLABLE NEL MODEL
+        // # IN QUESTO CASO USIAMO IL SECONDO METODO
+        // $project->name = $data['name'];
+        // $project->link = $data['link'];
+        // $project->description = $data['description'];
+        // $project->save();
+
+        $project->fill($data);
+        $project->save();
+
+        // # FACCIAMO IL REDIRECT IN MANIERA TALE CHE QUANDO SALVIAMO
+        // # IL NUOVO PROGETTO CI RIPORTA A UNA ROTTA CHE VOGLIAMO
+        return redirect()->route('admin.projects.show', $project);
     }
 
     /**
