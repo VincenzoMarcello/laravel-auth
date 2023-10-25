@@ -19,7 +19,8 @@
             <td>{{ $project->name }}</td>
             <td>{{ $project->description }}</td>
             <td>{{ $project->link }}</td>
-            <td></td>
+            {{-- # CI CREIAMO UN PULSANTE CHE CI PORTA AL DETTAGLIO DEL PROJECT --}}
+            <td> <a href="{{ route('admin.projects.show', $project) }}">Show</a></td>
           </tr>
         @empty
           <tr>

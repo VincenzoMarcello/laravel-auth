@@ -206,6 +206,8 @@ php artisan db:seed --class=UserSeeder
 use App\Models\Project;
 ```
 
+## CREAZIONE INDEX
+
 -   poi iniziamo con le CRUD e l'index, per prima cosa ci andiamo a creare
     nelle views in admin la cartellina projects e qui dentro metteremo il file
     index.blade.php
@@ -277,5 +279,32 @@ $projects = Project::paginate(15);
     quindi aggiungiamo questo alla navbar nel blocco degli @else con la rotta per l'index
     ora vedremo il link Projects nella navbar solo se siamo loggati però
 
-    {{__('Register')}} questo doppio\_\_ si usa per i siti multiligua
-    però noi possiamo anche scrivere solo Register senza nulla
+    ```php
+    {{__('Register')}}
+    questo doppio '__' si usa per i siti multiligua però noi
+    possiamo anche scrivere solo Register senza nulla
+    ```
+
+## CREAZIONE SHOW
+
+-   Vediamo ora lo show, quindi innanzitutto andiamo nel resource controller quindi in **ProjectController** e troviamo la show:
+
+```php
+ public function show(Project $project)
+    {
+        return view('admin.projects.show', compact('project'));
+    }
+```
+
+quindi diamo come parametro Project e nel ritorniamo la vista show che creeremo in _views\admin\projects_
+
+**ATTENZIONE:** nel compact passiamo solo project e non projects perchè a noi interessa il dettaglio di un solo project
+
+-   quindi ci creiamo la show nelle views\admin\projects
+-   ora andiamo in _index.blade.php_ e ci creiamo il pulsante che porta alla vista show:
+
+```html
+<a href="{{ route('admin.projects.show', $project) }}">Show</a>
+```
+
+-   ora in _show.blade.php_ ci andiamo a creare il template del dettaglio e ci mettiamo un pulsante per ritornare all'index
