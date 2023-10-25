@@ -15,6 +15,9 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    {{-- # Aggiungo un segnaposto dove metteremo ad esempio la CDN di Fontawesome --}}
+    @yield('css')
+
     <!-- Usando Vite -->
     @vite(['resources/js/app.js'])
   </head>

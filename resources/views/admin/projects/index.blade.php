@@ -1,5 +1,12 @@
 @extends('layouts.app')
 
+{{-- # METTIAMO LA CDN DI FONTAWESOME PER LE ICONE --}}
+@section('css')
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+@endsection
+
 @section('content')
   <div class="container">
     <table class="table">
@@ -20,7 +27,7 @@
             <td>{{ $project->description }}</td>
             <td>{{ $project->link }}</td>
             {{-- # CI CREIAMO UN PULSANTE CHE CI PORTA AL DETTAGLIO DEL PROJECT --}}
-            <td> <a href="{{ route('admin.projects.show', $project) }}">Show</a></td>
+            <td> <a href="{{ route('admin.projects.show', $project) }}"><i class="fa-solid fa-eye"></i></a></td>
           </tr>
         @empty
           <tr>

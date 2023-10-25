@@ -308,3 +308,5 @@ quindi diamo come parametro Project e nel ritorniamo la vista show che creeremo 
 ```
 
 -   ora in _show.blade.php_ ci andiamo a creare il template del dettaglio e ci mettiamo un pulsante per ritornare all'index
+
+-   aggiungiamo un segnaposto _@yild_ in _app.blade.php_ per aggiungere poi la CDN di fontawesome in index e mettiamo l'icone al posto dello show
