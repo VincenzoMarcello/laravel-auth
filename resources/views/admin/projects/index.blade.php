@@ -21,6 +21,7 @@
           <th scope="col">Descrizione</th>
           <th scope="col">Link</th>
           <th scope="col"></th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -32,7 +33,8 @@
             <td>{{ $project->description }}</td>
             <td>{{ $project->link }}</td>
             {{-- # CI CREIAMO UN PULSANTE CHE CI PORTA AL DETTAGLIO DEL PROJECT --}}
-            <td> <a href="{{ route('admin.projects.show', $project) }}"><i class="fa-solid fa-eye"></i></a></td>
+            <td><a href="{{ route('admin.projects.show', $project) }}"><i class="fa-solid fa-eye"></i></a></td>
+            <td><a href="{{ route('admin.projects.edit', $project) }}"><i class="fa-solid fa-pencil"></i></a></td>
           </tr>
         @empty
           <tr>

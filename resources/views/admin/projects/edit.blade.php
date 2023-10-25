@@ -4,24 +4,26 @@
   <div class="container mt-4">
     {{-- # PULSANTE CHE CI RIPORTA ALLA LISTA QUINDI ALL'index --}}
     <a href="{{ route('admin.projects.index') }}" class="btn btn-success">Torna alla lista</a>
+    <a href="{{ route('admin.projects.show', $project) }}" class="btn btn-warning">Vai al dettaglio</a>
     <hr>
-    <h2>Crea progetto</h2>
-    <form action="{{ route('admin.projects.store') }}" method="POST">
+    <h2>Modifica progetto</h2>
+    <form action="{{ route('admin.projects.update', $project) }}" method="POST">
       @csrf
+      @method('PATCH')
       <div class="row g-3">
         <div class="col-12">
           <label for="name" class="form-label">Name</label>
-          <input class="form-control" type="text" id="name" name="name">
+          <input class="form-control" type="text" id="name" name="name" value="{{ $project->name }}">
         </div>
 
         <div class="col-12">
           <label for="link" class="form-label">Link</label>
-          <input class="form-control" type="url" id="link" name="link">
+          <input class="form-control" type="url" id="link" name="link" value="{{ $project->link }}">
         </div>
-
+        {{-- # NELLA TEXTAREA IL VALUE VA MESSO DIRETTAMENTE NEL TAG E NON COME ATTRIBUTO --}}
         <div class="col-12">
           <label for="description" class="form-label">Description</label>
-          <textarea class="form-control" id="description" name="description">
+          <textarea class="form-control" id="description" name="description">{{ $project->description }}
           </textarea>
         </div>
       </div>

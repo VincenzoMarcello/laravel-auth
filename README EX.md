@@ -363,3 +363,58 @@ quindi diamo come parametro Project e nel ritorniamo la vista show che creeremo 
     }
 
 ```
+
+## CREAZIONE EDIT E UPDATING
+
+-   innazitutto ci copiamo il file _create.blade.php_ perchè ci servirà il form
+    e lo rinominiamo _edit.blade.php_
+
+```html
+<form action="{{ route('admin.projects.update', $project) }}" method="POST">
+    @csrf @method('PATCH')
+    <div class="row g-3">
+        <div class="col-12">
+            <label for="name" class="form-label">Name</label>
+            <input
+                class="form-control"
+                type="text"
+                id="name"
+                name="name"
+                value="{{ $project->name }}"
+            />
+        </div>
+        .....
+    </div>
+</form>
+```
+
+-   usiamo il method PATCH e mettiamo i valori vecchi che dovranno essere modificati nei vari input
+
+-   ora andiamo in ProjectController e scriviamo nell'edit:
+
+```php
+  public function edit(Project $project)
+    {
+        // # FACENDO LA Dependency injection QUINDI METTENDO Project $project INVECE DI $ID
+        // # CI RISPARMIAMO LA RIGA SOTTO
+        // $projects = Project::findOrFail($id);
+        return view('admin.projects.edit', compact('project'));
+    }
+```
+
+-   invece in update:
+
+```php
+ public function update(Request $request, Project $project)
+    {
+        $data = $request->all();
+        $project->fill($data);
+        $project->save();
+
+        // # COME PER LO STORE FACCIAMO IL REDIRECT IN MANIERA TALE CHE QUANDO SALVIAMO
+        // # IL PROGETTO MODIFICATO CI RIPORTA A UNA ROTTA CHE VOGLIAMO
+        return redirect()->route('admin.projects.show', $project);
+    }
+```
+
+-   aggiungiamo anche un tasto nell'index che ci porta all'edit per modificare appunto un progetto

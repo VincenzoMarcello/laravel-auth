@@ -23,8 +23,12 @@ class ProjectController extends Controller
         // $projects = Project::all();
 
         // # PER FARE LA PAGINAZIONE E VEDERNE SOLO ALCUNI
-        $projects = Project::paginate(15);
+        // # QUESTA PARTE DAL PRIMO E ARRIVA ALL'ULTIMO
+        // $projects = Project::paginate(9);
 
+        // # FACCIAMO LA PAGINAZIONE ORDINANDO DALL'ULTIMO PROJECT AL PRIMO
+        // # TRAMITE IL METODO ORDERBYDESC DELL'id
+        $projects = Project::orderByDesc('id')->paginate(9);
 
         return view('admin.projects.index', compact('projects'));
     }
@@ -87,7 +91,10 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        // # FACENDO LA Dependency injection QUINDI METTENDO Project $project INVECE DI $ID
+        // # CI RISPARMIAMO LA RIGA SOTTO
+        // $projects = Project::findOrFail($id);
+        return view('admin.projects.edit', compact('project'));
     }
 
     /**
@@ -99,7 +106,13 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        $data = $request->all();
+        $project->fill($data);
+        $project->save();
+
+        // # COME PER LO STORE FACCIAMO IL REDIRECT IN MANIERA TALE CHE QUANDO SALVIAMO
+        // # IL PROGETTO MODIFICATO CI RIPORTA A UNA ROTTA CHE VOGLIAMO
+        return redirect()->route('admin.projects.show', $project);
     }
 
     /**
