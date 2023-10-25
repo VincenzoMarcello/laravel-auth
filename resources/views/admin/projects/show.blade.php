@@ -17,7 +17,7 @@
       <div class="col-6">
         <p>
           <strong>Link:</strong><br>
-          {{ $project->link }}
+          <a href="">{{ $project->link }}</a>
         </p>
       </div>
 
