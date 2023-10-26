@@ -418,3 +418,26 @@ quindi diamo come parametro Project e nel ritorniamo la vista show che creeremo 
 ```
 
 -   aggiungiamo anche un tasto nell'index che ci porta all'edit per modificare appunto un progetto
+
+## CREAZIONE DEL DESTROY PER CANCELLARE
+
+-   andiamo nel resource controller alla sezione destroy:
+
+```php
+public function destroy(Project $project)
+    {
+        $project->delete();
+        return redirect()->route('admin.projects.index');
+    }
+```
+
+-   poi ci creiamo un tasto che elimina nell'index:
+
+```html
+  {{-- # IMPORTANTE METTERE # NELL'href --}}
+                <a href="#" class="d-inline-block mx-1 text-danger" data-bs-toggle="modal"
+                  data-bs-target="#delete-modal-{{ $project->id }}"><i class="fa-solid fa-trash"></i></a>
+              </div>
+```
+
+-   e ci creiamo una modale con un form per eliminazione questa modale farà comparire un pop up che ci chiederà se vogliamo eliminare o no il file selezionato in maniera tale da non sbagliare
