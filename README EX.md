@@ -441,3 +441,119 @@ public function destroy(Project $project)
 ```
 
 -   e ci creiamo una modale con un form per eliminazione questa modale farà comparire un pop up che ci chiederà se vogliamo eliminare o no il file selezionato in maniera tale da non sbagliare
+
+### VALIDAZIONE
+
+### Il metodo `validate`
+
+Innanzitutto bisogna importare il validator nel controller:
+
+```php
+// App/Http/Controllers/PastaController.php
+
+use Illuminate\Support\Facades\Validator;
+```
+
+Poi creiamo un metodo privato per la logica di validazione in fondo al controller. Nel metodo dobbiamo ricevere i dati da validare
+
+```php
+// App/Http/Controllers/PastaController.php
+
+private function validation($data) {
+
+}
+```
+
+Nel metodo statico `make` del `Validator`:
+
+-   il primo parametro saranno i dati da validare (array associativo)
+-   il secondo parametro saranno le regole di validazione (array associativo)
+-   il terzo parametro (opzionale) saranno messaggi di errore customizzati (array associativo)
+
+```php
+// App/Http/Controllers/PastaController.php
+
+private function validation($data) {
+  Validator::make(
+    $data,
+    [
+      ... regole di validazione
+    ],
+    [
+      ... messaggi di errore
+    ]
+  )
+}
+```
+
+Al metodo make dovrà essere concatenato un metodo `->validate()` per eseguire la validazione, ed il risultato sarà ritornato dal nostro metodo privato.
+
+```php
+// App/Http/Controllers/PastaController.php
+
+private function validation($data) {
+  return Validator::make(
+    $data,
+    [
+      ... regole di validazione
+    ],
+    [
+      ... messaggi di errore
+    ]
+  )->validate();
+}
+```
+
+Il risultato finale è questo nel resource controller:
+
+```php
+ private function validation($data)
+    {
+        $validator = Validator::make(
+            $data,
+            [
+                'name' => 'required|string|max:20',
+                "description" => "required|string",
+                "link" => "required|string",
+            ],
+            [
+                'name.required' => 'Il nome è obbligatorio',
+                'name.string' => 'Il nome deve essere una stringa',
+                'name.max' => 'Il nome deve massimo di 20 caratteri',
+
+                'description.required' => 'La descrizione è obbligatorio',
+                'description.string' => 'La descrizione deve essere una stringa',
+
+                'link.required' => 'Il link è obbligatorio',
+                'link.string' => 'Il tipo deve essere una stringa',
+            ]
+        )->validate();
+
+        return $validator;
+    }
+```
+
+-   ora andiamo in create:
+
+```php
+  {{-- ! QUI METTIAMO NELL'INPUT IL VECCHIO VALORE E IL GLI ERROR PER LA VALIDAZIONE --}}
+          <input class="form-control @error('name') is-invalid @enderror" type="text" id="name" name="name"
+            value="{{ old('name') }}">
+          {{-- ! QUI ABBIAMO IL MESSAGGIO DI ERRORE --}}
+          @error('name')
+            <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
+```
+
+-   invece in edit:
+
+```php
+          {{-- ! QUI METTIAMO NELL'INPUT IL VECCHIO VALORE E IL GLI ERROR PER LA VALIDAZIONE --}}
+          <input class="form-control @error('name') is-invalid @enderror" type="text" id="name" name="name"
+            value="{{ old('name') ?? $project->name }}">
+          {{-- ! QUI ABBIAMO IL MESSAGGIO DI ERRORE --}}
+          @error('name')
+            <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
+
+```

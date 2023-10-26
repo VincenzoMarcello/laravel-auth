@@ -11,18 +11,39 @@
       <div class="row g-3">
         <div class="col-12">
           <label for="name" class="form-label">Name</label>
-          <input class="form-control" type="text" id="name" name="name">
+          {{-- ! QUI METTIAMO NELL'INPUT IL VECCHIO VALORE E IL GLI ERROR PER LA VALIDAZIONE --}}
+          <input class="form-control @error('name') is-invalid @enderror" type="text" id="name" name="name"
+            value="{{ old('name') }}">
+          {{-- ! QUI ABBIAMO IL MESSAGGIO DI ERRORE --}}
+          @error('name')
+            <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
+
+
 
         <div class="col-12">
           <label for="link" class="form-label">Link</label>
-          <input class="form-control" type="url" id="link" name="link">
+          {{-- ! FACCIAMO LO STESSO DI SOPRA --}}
+          <input class="form-control @error('link') is-invalid @enderror" type="url" id="link" name="link"
+            value="{{ old('link') }}">
+
+          @error('link')
+            <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
+
+
 
         <div class="col-12">
           <label for="description" class="form-label">Description</label>
-          <textarea class="form-control" id="description" name="description">
+          <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description">
+            {{ old('description') }}
           </textarea>
+
+          @error('description')
+            <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
       </div>
 

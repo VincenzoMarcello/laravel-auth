@@ -13,18 +13,34 @@
       <div class="row g-3">
         <div class="col-12">
           <label for="name" class="form-label">Name</label>
-          <input class="form-control" type="text" id="name" name="name" value="{{ $project->name }}">
+          {{-- ! QUI METTIAMO NELL'INPUT IL VECCHIO VALORE E IL GLI ERROR PER LA VALIDAZIONE --}}
+          <input class="form-control @error('name') is-invalid @enderror" type="text" id="name" name="name"
+            value="{{ old('name') ?? $project->name }}">
+          {{-- ! QUI ABBIAMO IL MESSAGGIO DI ERRORE --}}
+          @error('name')
+            <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
 
         <div class="col-12">
           <label for="link" class="form-label">Link</label>
-          <input class="form-control" type="url" id="link" name="link" value="{{ $project->link }}">
+          <input class="form-control @error('link') is-invalid @enderror" type="url" id="link" name="link"
+            value="{{ old('link') ?? $project->link }}">>
+
+          @error('link')
+            <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
+
         {{-- # NELLA TEXTAREA IL VALUE VA MESSO DIRETTAMENTE NEL TAG E NON COME ATTRIBUTO --}}
         <div class="col-12">
           <label for="description" class="form-label">Description</label>
-          <textarea class="form-control" id="description" name="description">{{ $project->description }}
+          <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description">{{ old('number') ?? $project->description }}
           </textarea>
+
+          @error('description')
+            <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
       </div>
 

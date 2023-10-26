@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 // # IMPORTIAMO IL MODEL Project 
 use App\Models\Project;
 
+// ! PER LA VALIDAZIONE IMPORTO IL VALIDATOR
+use Illuminate\Support\Facades\Validator;
+
 class ProjectController extends Controller
 {
     /**
@@ -52,7 +55,11 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         // # FACCIAMO UNA VARIABILE DATA CHE RICEVERA' I DATI DEL FORM
-        $data = $request->all();
+        // # METODO SENZA VALIDAZIONE
+        // $data = $request->all();
+
+        // # METODO CON VALIDAZIONE
+        $data = $this->validation($request->all());
 
         // # E ISTANZIAMO UN NUOVO OGGETTO CHE CONTERRA' I DATI DEL FORM
         $project = new Project();
@@ -106,7 +113,12 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        $data = $request->all();
+
+        // # METODO SENZA VALIDAZIONE
+        // $data = $request->all();
+
+        // # METODO CON VALIDAZIONE
+        $data = $this->validation($request->all(), $project->id);
         $project->fill($data);
         $project->save();
 
@@ -125,5 +137,31 @@ class ProjectController extends Controller
     {
         $project->delete();
         return redirect()->route('admin.projects.index');
+    }
+
+    // ! FACCIO UN METODO PRIVATO PER LA VALIDAZIONE
+    private function validation($data)
+    {
+        $validator = Validator::make(
+            $data,
+            [
+                'name' => 'required|string|max:20',
+                "description" => "required|string",
+                "link" => "required|string",
+            ],
+            [
+                'name.required' => 'Il nome è obbligatorio',
+                'name.string' => 'Il nome deve essere una stringa',
+                'name.max' => 'Il nome deve massimo di 20 caratteri',
+
+                'description.required' => 'La descrizione è obbligatorio',
+                'description.string' => 'La descrizione deve essere una stringa',
+
+                'link.required' => 'Il link è obbligatorio',
+                'link.string' => 'Il tipo deve essere una stringa',
+            ]
+        )->validate();
+
+        return $validator;
     }
 }
