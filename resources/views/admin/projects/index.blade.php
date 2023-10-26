@@ -10,7 +10,7 @@
 @section('content')
   <div class="container">
     {{-- # CI CREIAMO UN PULSANTE CHE CI PORTA AL FORM PER CREARE UN NUOVO PROJECT --}}
-    <a href="{{ route('admin.projects.create') }}" class="btn btn-success my-4">Crea proggetto</a>
+    <a href="{{ route('admin.projects.create') }}" class="btn btn-success my-4">Crea progetto</a>
 
     {{-- # CI CREIAMO UNA TABELLA CHE CONTIENE LA LISTA DEI VARI ELEMENTI DEL DB --}}
     <table class="table">
